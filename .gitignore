@@ -1,0 +1,9 @@
+# Complie cache
+__pycache__
+build
+dist
+# Charm Editor cache
+re2_fw_config.txt
+shader.cache2
+config.ini
+`Charms.spec

@@ -1,0 +1,42 @@
+{
+    "Offset": 82,
+    "ShowGuide": false,
+    "Language": "zhs",
+    "DisplayDetails": true,
+    "CommonOnly": false,
+    "MaxDisplayCount": 200,
+    "TargetRaritys": {
+        "269484032": false,
+        "269484033": false,
+        "269484034": false,
+        "269484035": false,
+        "269484036": false,
+        "269484037": false,
+        "269484038": false,
+        "269484039": false,
+        "269484040": false,
+        "269484041": false,
+        "269484042": false,
+        "269484043": false,
+        "269484044": false,
+        "269484045": true
+    },
+    "TargetRarityNames": {
+        "NOTE_ENG": "This is only use as a comment for rarity, won't be read in the script",
+        "NOTE_ZHS": "此词条仅用于注释稀有度名称，不会被程序读取",
+        "269484032": "风止护石 R1",
+        "269484033": "风气护石 R2",
+        "269484034": "烈风护石 R3",
+        "269484035": "鬼雨护石 R4",
+        "269484036": "山岚护石 R5",
+        "269484037": "天雷护石 R6",
+        "269484038": "神岚护石 R7",
+        "269484039": "新手护石 R4 预购专属",
+        "269484040": "牵绊护石 R3 NS版专属，物语2Trail版联动",
+        "269484041": "老练护石 R2 下载内容",
+        "269484042": "家传护石 R2 下载内容",
+        "269484043": "山海护石 R8",
+        "269484044": "极夜护石 R9",
+        "269484045": "天佑护石 R10"
+    }
+}
