@@ -1,3 +1,15 @@
+'''
+Author: wayneferdon wayneferdon@hotmail.com
+Date: 2022-01-21 03:18:12
+LastEditors: wayneferdon wayneferdon@hotmail.com
+LastEditTime: 2022-08-10 21:14:07
+FilePath: \MHR\`Charms.py
+----------------------------------------------------------------
+Copyright (c) 2022 by Wayne Ferdon Studio. All rights reserved.
+Licensed to the .NET Foundation under one or more agreements.
+The .NET Foundation licenses this file to you under the MIT license.
+See the LICENSE file in the project root for more information.
+'''
 # @Author: wayneferdon wayneferdon@hotmail.com
 # @Date: 2022-07-22 11:32:37
 # @LastEditors: wayneferdon wayneferdon@hotmail.com
@@ -357,7 +369,7 @@ def GetReplacements(combos):
 
 def CheckIsSame(itemA, itemB):
     for skill in itemA:
-        if skill not in itemA.keys():
+        if skill not in itemB.keys():
             return False
         if skill == 'slot':
             slotsA = itemA['slot'].copy()
@@ -368,6 +380,7 @@ def CheckIsSame(itemA, itemB):
                 if slotsA[i] != slotsB[i]:
                     return False
             continue
+        print(itemA,itemB)
         if itemA[skill] != itemB[skill]:
             return False
     return True
