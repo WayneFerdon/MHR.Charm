@@ -1,3 +1,16 @@
+# ----------------------------------------------------------------
+# Author: wayneferdon wayneferdon@hotmail.com
+# Date: 2022-01-21 03:18:12
+# LastEditors: wayneferdon wayneferdon@hotmail.com
+# LastEditTime: 2022-10-12 05:22:24
+# FilePath: \undefinedh:\Wayne Custaf Laqinoa Ferdon\Game\MHR\`Charms.py
+# ----------------------------------------------------------------
+# Copyright (c) 2022 by Wayne Ferdon Studio. All rights reserved.
+# Licensed to the .NET Foundation under one or more agreements.
+# The .NET Foundation licenses this file to you under the MIT license.
+# See the LICENSE file in the project root for more information.
+# ----------------------------------------------------------------
+
 '''
 Author: wayneferdon wayneferdon@hotmail.com
 Date: 2022-01-21 03:18:12
@@ -189,10 +202,36 @@ def LoadSheet(sheet):
     ncols = sheet.ncols  # 列数
     if ncols == 0 or nrows == 0:
         return
-    LoadExcelItemDatas(sheet, nrows, GetColDef(sheet, ncols))
+    LoadExcelSkillDatas(sheet, nrows, ncols)
+    if g_LastFile == EXCEL_FILE_PATH:
+        LoadExcelItemDatas(sheet, nrows, GetColDef(sheet, ncols, 10000))
 
-def GetColDef(sheet, ncols):
-    colName = GetString(10000)
+def LoadExcelSkillDatas(sheet, nrows, ncols):
+    cidCol = GetColDef(sheet, ncols, 11001)
+    limitCol = GetColDef(sheet, ncols, 11002)
+    jewlCol = GetColDef(sheet, ncols, 11003)
+    if None in [cidCol, limitCol, jewlCol]:
+        return
+    skills = dict()
+    for row in range(nrows):
+        if row == 0:
+            continue
+        cidCell = sheet.cell(row, cidCol)
+        limitCell = sheet.cell(row, limitCol)
+        jewlCell = sheet.cell(row, jewlCol)
+        if '' in [cidCell.value, limitCell.value, jewlCell.value]:
+            continue
+        cid = str(int(cidCell.value))
+        skills[cid] = {
+            "level":[int(x) for x in (jewlCell.value).split(',')],
+            "limit":int(limitCell.value)
+        }
+    with open(SKILL_PATH,'w',encoding='utf-8') as f:
+        f.write(json.dumps(skills))
+    return
+
+def GetColDef(sheet, ncols, nameStringID):
+    colName = GetString(nameStringID)
     done = 0
     for col in range(ncols):
         if done == 5:
@@ -380,7 +419,6 @@ def CheckIsSame(itemA, itemB):
                 if slotsA[i] != slotsB[i]:
                     return False
             continue
-        print(itemA,itemB)
         if itemA[skill] != itemB[skill]:
             return False
     return True
@@ -410,7 +448,7 @@ def GetOutPut(rowA, rowB, itemB=None):
     if len(checkedCombs) == 0 and len(skillsNeedJewel) != 0:
         return None
 
-    isSame = rowB != -1 and CheckIsSame(itemA, itemB)
+    isSame = rowB != -1 and CheckIsSame(itemA, itemB) and CheckIsSame(itemB, itemA)
     if isSame:
         if rowB not in g_Exclusion.keys():
             g_Exclusion[rowB] = list()
@@ -452,7 +490,7 @@ def DisplayOutput(result):
 def CheckNeedUpdate(lastRefreshTime):
     dataTimes = list()
     dataTimes.append(os.stat(CONFIG_PATH).st_mtime)
-    dataTimes.append(os.stat(SKILL_PATH).st_mtime)
+    # dataTimes.append(os.stat(SKILL_PATH).st_mtime)
     if 'Language' in g_Config.keys():
         langFile = LANGUAGE_PATH.format(GetConfig(Config.Language))
         if os.path.exists(langFile):
@@ -481,10 +519,9 @@ def CheckNeedUpdate(lastRefreshTime):
 
 def RelpadData():
     g_Items.clear()
-    if g_LastFile == EXCEL_FILE_PATH:
-        with xlrd.open_workbook(EXCEL_FILE_PATH) as book:
-            for sheet in book.sheets():
-                LoadSheet(sheet)
+    with xlrd.open_workbook(EXCEL_FILE_PATH) as book:
+        for sheet in book.sheets():
+            LoadSheet(sheet)
     if g_LastFile == JSON_FILE_PATH:
         with open(JSON_FILE_PATH, 'r') as f:
             LoadJson(f.readlines())
